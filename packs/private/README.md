@@ -9,3 +9,13 @@ Then list them in [`../manifest.json`](../manifest.json), for example:
 ```
 
 This folder’s contents (except this README) are gitignored so they stay off GitHub.
+
+Also list your file in `../manifest.local.json` (gitignored), for example:
+
+```json
+{
+  "packs": [
+    "private/my-school.json"
+  ]
+}
+```

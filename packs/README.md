@@ -21,18 +21,18 @@ You can also use **Import pack** in the app header (any valid Class Calendar les
 
 1. Export a pack from Class Calendar (**Data** → Export lesson plans/books pack), or from this app (**Export pack**).
 2. Save the JSON file under `packs/private/` (recommended for school/proprietary content).
-3. Add the relative path to `manifest.json`, for example:
+3. Create or edit **`packs/manifest.local.json`** (gitignored — stays off GitHub):
 
 ```json
 {
   "packs": [
-    "demo/demo-phonics.json",
     "private/my-school.json"
   ]
 }
 ```
 
-4. Hard-refresh the browser (Ctrl+F5). New or changed packs in the manifest are applied automatically.
+   Public [`manifest.json`](manifest.json) is for shared demo packs only. The app loads both manifests.
+4. Hard-refresh the browser (Ctrl+F5). New or changed packs are applied automatically.
 
 ## Privacy
 

@@ -426,15 +426,22 @@
             }
             if (!curricula[id]) {
                 curricula[id] = {
+                    isCustom: !getAllFactoryPresets().length,
+                    bookTitle: id,
                     sessions: normalizeRowTemplates(leg.defaultSyllabusRowTemplates),
                     classDefaults: {},
                     types: {},
                     updatedAt: leg.updatedAt || new Date().toISOString()
                 };
             } else if (!curricula[id].sessions?.length && leg.defaultSyllabusRowTemplates) {
-                // Record exists without personal sessions (cleared or meta-only save).
-                // Drop stale legacy so factory / teamDefault supply current templates.
-                delete books[id];
+                // Hydrate empty personal sessions from legacy book overrides (do not drop them).
+                curricula[id].sessions = normalizeRowTemplates(leg.defaultSyllabusRowTemplates);
+                if (!curricula[id].isCustom && !getAllFactoryPresets().length) {
+                    curricula[id].isCustom = true;
+                }
+                if (!curricula[id].bookTitle) {
+                    curricula[id].bookTitle = id;
+                }
             }
         });
         const typeOv = data.defaultClassTypeOverrides;
@@ -496,13 +503,29 @@
         const curricula = ensureCurriculumOverrides(appData);
         Object.keys(curricula).forEach((id) => {
             const raw = curricula[id];
-            if (!raw || typeof raw !== 'object' || !raw.isCustom || byKey.has(id)) {
+            if (!raw || typeof raw !== 'object' || byKey.has(id)) {
                 return;
             }
-            const sessions = raw.sessions
+            // Factory books already entered via getAll() above. This loop adds:
+            // - custom curricula, and
+            // - Class Calendar factory-keyed pack overrides when factory catalog is empty.
+            const factoryEmpty = !api.getAll().length;
+            if (!raw.isCustom && !factoryEmpty) {
+                return;
+            }
+            let sessions = raw.sessions
                 ? normalizeRowTemplates(raw.sessions)
                 : [];
+            if (!sessions.length && raw.teamDefault && Array.isArray(raw.teamDefault.sessions)) {
+                sessions = normalizeRowTemplates(raw.teamDefault.sessions);
+            }
+            if (!sessions.length && bookOv[id] && bookOv[id].defaultSyllabusRowTemplates) {
+                sessions = normalizeRowTemplates(bookOv[id].defaultSyllabusRowTemplates);
+            }
             const title = (raw.bookTitle || id).trim();
+            if (!raw.isCustom && factoryEmpty && !title && !sessions.length) {
+                return;
+            }
             const levels = Array.isArray(raw.applicableLevels)
                 ? raw.applicableLevels.filter(Boolean)
                 : (Array.isArray(raw.levels) ? raw.levels.filter(Boolean) : []);
@@ -517,8 +540,8 @@
             );
             byKey.set(id, {
                 id,
-                name: title,
-                displayName: title,
+                name: title || id,
+                displayName: title || id,
                 presetIds: [],
                 factoryPresetLevels: levels.slice(),
                 levels: applicable.levels,
@@ -528,7 +551,7 @@
                     ? raw.classDefaults.defaultTotalLessons
                     : (sessions.length || 4),
                 lessonLabelMode: (raw.classDefaults && raw.classDefaults.lessonLabelMode) || '',
-                programTrack: '',
+                programTrack: raw.isBuiltinDebate ? 'debate' : '',
                 sessionCount: sessions.length,
                 factorySessionCount: 0,
                 baselineSessionCount,

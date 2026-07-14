@@ -5,3 +5,4 @@ Thumbs.db
 # Proprietary curriculum packs (keep off GitHub)
 packs/private/**
 !packs/private/README.md
+packs/manifest.local.json

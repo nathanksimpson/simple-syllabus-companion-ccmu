@@ -427,6 +427,13 @@
                 save(cache);
             }
             ensureDisplayRange(cache);
+            if (global.CCPSyllabusPack
+                && typeof global.CCPSyllabusPack.promotePackCurriculaForEmptyFactory === 'function') {
+                const promoted = global.CCPSyllabusPack.promotePackCurriculaForEmptyFactory(cache);
+                if (promoted > 0) {
+                    save(cache);
+                }
+            }
             return cache;
         } catch {
             cache = emptyData();

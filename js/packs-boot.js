@@ -1,10 +1,11 @@
 /**
- * Auto-load curriculum packs listed in packs/manifest.json into localStorage.
+ * Auto-load curriculum packs listed in packs/manifest.json (+ optional manifest.local.json).
  * window.CCPPacksBoot
  */
 (function (global) {
     const LOADED_KEY = 'ccp-companion-loaded-packs';
     const MANIFEST_URL = 'packs/manifest.json';
+    const LOCAL_MANIFEST_URL = 'packs/manifest.local.json';
 
     function simpleHash(text) {
         let h = 0;
@@ -42,6 +43,40 @@
         return `packs/${clean}`;
     }
 
+    async function fetchManifest(url, required) {
+        try {
+            const res = await fetch(url, { cache: 'no-store' });
+            if (res.status === 404 && !required) {
+                return { packs: [] };
+            }
+            if (!res.ok) {
+                throw new Error(`HTTP ${res.status}`);
+            }
+            const manifest = await res.json();
+            return {
+                packs: Array.isArray(manifest && manifest.packs) ? manifest.packs : []
+            };
+        } catch (err) {
+            if (!required) {
+                return { packs: [], softError: err && err.message ? err.message : 'Failed' };
+            }
+            throw err;
+        }
+    }
+
+    function mergePackLists(primary, local) {
+        const seen = new Set();
+        const out = [];
+        [...(primary || []), ...(local || [])].forEach((rel) => {
+            if (!rel || typeof rel !== 'string' || seen.has(rel)) {
+                return;
+            }
+            seen.add(rel);
+            out.push(rel);
+        });
+        return out;
+    }
+
     /**
      * @returns {Promise<{ applied: string[], skipped: string[], errors: { path: string, message: string }[] }>}
      */
@@ -59,13 +94,9 @@
             return result;
         }
 
-        let manifest;
+        let publicManifest;
         try {
-            const res = await fetch(MANIFEST_URL, { cache: 'no-store' });
-            if (!res.ok) {
-                throw new Error(`HTTP ${res.status}`);
-            }
-            manifest = await res.json();
+            publicManifest = await fetchManifest(MANIFEST_URL, true);
         } catch (err) {
             result.errors.push({
                 path: MANIFEST_URL,
@@ -74,7 +105,8 @@
             return result;
         }
 
-        const list = Array.isArray(manifest && manifest.packs) ? manifest.packs : [];
+        const localManifest = await fetchManifest(LOCAL_MANIFEST_URL, false);
+        const list = mergePackLists(publicManifest.packs, localManifest.packs);
         const record = loadRecord();
         const storeData = typeof store.getData === 'function' ? store.getData() : null;
         const overrideKeys = storeData && storeData.curriculumOverrides
@@ -84,9 +116,6 @@
 
         for (let i = 0; i < list.length; i += 1) {
             const rel = list[i];
-            if (!rel || typeof rel !== 'string') {
-                continue;
-            }
             const url = packUrl(rel);
             try {
                 const res = await fetch(url, { cache: 'no-store' });
@@ -121,6 +150,7 @@
     global.CCPPacksBoot = {
         LOADED_KEY,
         MANIFEST_URL,
+        LOCAL_MANIFEST_URL,
         loadFromManifest,
         simpleHash
     };

@@ -23,6 +23,8 @@ const FILES = [
     'js/syllabus-presets.js',
     'js/syllabus-templates.js',
     'js/syllabus-table.js',
+    // books-editor.js: Companion keeps a pack-first discoverBooks patch (factory-empty → show pack curricula).
+    // Re-check that behavior after syncing from Class Calendar.
     'js/books-editor.js',
     'js/default-class-editor.js',
     'js/homework-import.js',

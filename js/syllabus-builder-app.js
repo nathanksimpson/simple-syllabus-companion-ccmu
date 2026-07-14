@@ -2067,9 +2067,11 @@
                     const counts = window.CCPCompanionStore.mergePack(imported);
                     initCurriculumPanel();
                     renderProjectEditor();
+                    const bookN = counts.curriculumCount != null ? counts.curriculumCount : counts.bookCount;
                     setStatus(t('packImported')
-                        .replace('{templates}', String(counts.templateCount))
-                        .replace('{books}', String(counts.bookCount)));
+                        .replace('{templates}', String(counts.templateCount || 0))
+                        .replace('{books}', String(bookN || 0)));
+                    switchTab('curriculum');
                 } catch {
                     alert(t('packInvalid'));
                 }

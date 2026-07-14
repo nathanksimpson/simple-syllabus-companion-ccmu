@@ -3,9 +3,21 @@ import assert from 'node:assert/strict';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import vm from 'vm';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
+
+function loadPackModule() {
+    const code = fs.readFileSync(path.join(ROOT, 'js', 'syllabus-pack.js'), 'utf8');
+    const sandbox = {
+        CCPCurriculaData: { getAll: () => [] }
+    };
+    sandbox.window = sandbox;
+    sandbox.globalThis = sandbox;
+    vm.runInNewContext(code, sandbox);
+    return sandbox.CCPSyllabusPack;
+}
 
 const KIND = 'ccp-syllabus-pack';
 
@@ -16,21 +28,6 @@ function isValid(imported) {
             || (imported.curriculumOverrides && typeof imported.curriculumOverrides === 'object');
     }
     return Array.isArray(imported.customSyllabusTemplates);
-}
-
-function mergeInto(target, imported) {
-    const data = target || {};
-    let bookCount = 0;
-    if (imported.curriculumOverrides && typeof imported.curriculumOverrides === 'object') {
-        if (!data.curriculumOverrides || typeof data.curriculumOverrides !== 'object') {
-            data.curriculumOverrides = {};
-        }
-        Object.keys(imported.curriculumOverrides).forEach((cid) => {
-            data.curriculumOverrides[cid] = JSON.parse(JSON.stringify(imported.curriculumOverrides[cid]));
-            bookCount += 1;
-        });
-    }
-    return { bookCount, data };
 }
 
 describe('syllabus pack', () => {
@@ -56,16 +53,104 @@ describe('pack-first demo pack', () => {
         assert.ok(Array.isArray(manifest.packs));
         assert.ok(manifest.packs.includes('demo/demo-phonics.json'));
     });
+});
 
-    it('merges custom curricula without factory catalog', () => {
-        const pack = JSON.parse(
-            fs.readFileSync(path.join(ROOT, 'packs', 'demo', 'demo-phonics.json'), 'utf8')
-        );
-        const { bookCount, data } = mergeInto({ curriculumOverrides: {} }, pack);
-        assert.equal(bookCount, 1);
-        const entry = data.curriculumOverrides['custom-demo-phonics-red'];
-        assert.equal(entry.isCustom, true);
-        assert.ok(Array.isArray(entry.sessions) && entry.sessions.length > 0);
+describe('robust Class Calendar pack normalize', () => {
+    const packApi = loadPackModule();
+
+    it('exposes normalizePackCurricula', () => {
+        assert.equal(typeof packApi.normalizePackCurricula, 'function');
+    });
+
+    it('marks factory-keyed curricula as isCustom and keeps all books', () => {
+        const sample = {
+            kind: KIND,
+            curriculumOverrides: {
+                'hand-in-hand': {
+                    bookTitle: 'Hand in Hand Red',
+                    sessions: [{ sessionNumber: 1, planTitle: 'A', planDetail: '', note: '' }]
+                },
+                news: {
+                    isCustom: true,
+                    bookTitle: 'News',
+                    sessions: [{ sessionNumber: 1, planTitle: 'B', planDetail: '', note: '' }]
+                }
+            },
+            bookOverrides: {
+                animation: {
+                    defaultSyllabusRowTemplates: [
+                        { sessionNumber: 1, planTitle: 'Anim', planDetail: '', note: '' }
+                    ]
+                }
+            }
+        };
+        const ready = packApi.normalizePackCurricula(sample, { forceCustom: true });
+        assert.equal(Object.keys(ready).length, 3);
+        assert.equal(ready['hand-in-hand'].isCustom, true);
+        assert.equal(ready.news.isCustom, true);
+        assert.equal(ready.animation.isCustom, true);
+        assert.equal(ready.animation.sessions.length, 1);
+        assert.equal(ready.animation.bookTitle, 'animation');
+    });
+
+    it('hydrates sessions from teamDefault when sessions missing', () => {
+        const ready = packApi.normalizePackCurricula({
+            curriculumOverrides: {
+                toefl: {
+                    bookTitle: 'TOEFL',
+                    teamDefault: {
+                        sessions: [{ sessionNumber: 1, planTitle: 'Intro', planDetail: '', note: '' }]
+                    }
+                }
+            }
+        }, { forceCustom: true });
+        assert.equal(ready.toefl.sessions.length, 1);
+        assert.equal(ready.toefl.sessions[0].planTitle, 'Intro');
+    });
+
+    it('mergeInto reports full curriculumCount for a Class Calendar-shaped pack', () => {
+        const imported = {
+            kind: KIND,
+            curriculumOverrides: {
+                a: { bookTitle: 'A', sessions: [{ sessionNumber: 1 }] },
+                b: { bookTitle: 'B', sessions: [{ sessionNumber: 1 }] },
+                c: { isCustom: true, bookTitle: 'C', sessions: [{ sessionNumber: 1 }] }
+            },
+            bookOverrides: {
+                d: { defaultSyllabusRowTemplates: [{ sessionNumber: 1, planTitle: 'D' }] }
+            }
+        };
+        const target = {
+            curriculumOverrides: {},
+            bookOverrides: {},
+            customSyllabusTemplates: [],
+            defaultClassTypeOverrides: {}
+        };
+        const counts = packApi.mergeInto(target, imported);
+        assert.equal(counts.curriculumCount, 4);
+        assert.equal(Object.keys(target.curriculumOverrides).length, 4);
+        assert.ok(Object.values(target.curriculumOverrides).every((row) => row.isCustom === true));
+    });
+
+    it('normalizes the Jamsil summer pack to 15 visible curricula when present', () => {
+        const candidates = [
+            path.join(ROOT, 'packs', 'private', 'jamsil-le-el-2026-summer.json'),
+            path.join('c:/Users/SIMSTER/Downloads/1-Jamsil-Le-El-2026-Summer_lesson-plans-books_2026-07-14.json')
+        ];
+        const packPath = candidates.find((p) => fs.existsSync(p));
+        if (!packPath) {
+            return; // local-only proprietary fixture
+        }
+        const pack = JSON.parse(fs.readFileSync(packPath, 'utf8'));
+        const ready = packApi.normalizePackCurricula(pack, { forceCustom: true });
+        assert.equal(Object.keys(ready).length, 15);
+        assert.ok(ready['hand-in-hand'].isCustom);
+        assert.ok(ready['monster-phonics'].sessions.length >= 20);
+        assert.ok(ready.news.isCustom);
+        const target = { curriculumOverrides: {}, bookOverrides: {} };
+        const counts = packApi.mergeInto(target, pack);
+        assert.equal(counts.curriculumCount, 15);
+        assert.equal(Object.keys(target.curriculumOverrides).length, 15);
     });
 });
 
