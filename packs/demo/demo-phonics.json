@@ -1,0 +1,73 @@
+{
+  "kind": "ccp-syllabus-pack",
+  "schemaVersion": 1,
+  "exportedAt": "2026-03-01T00:00:00.000Z",
+  "customSyllabusTemplates": [],
+  "defaultClassTypeOverrides": {},
+  "bookOverrides": {},
+  "curriculumRemovedIds": [],
+  "curriculumOverrides": {
+    "custom-demo-phonics-red": {
+      "isCustom": true,
+      "bookTitle": "데모 교재 (Red Phonics)",
+      "applicableLevels": ["red"],
+      "levels": ["red"],
+      "sessions": [
+        {
+          "sessionNumber": 1,
+          "planTitle": "Unit 1 — Aa",
+          "planDetail": "1) 알파벳 Aa 소개\n2) 따라 읽기\n3) 워크북 p.1-2",
+          "note": "p.1-5"
+        },
+        {
+          "sessionNumber": 2,
+          "planTitle": "Unit 1 — Bb",
+          "planDetail": "1) 알파벳 Bb 소개\n2) 단어 카드\n3) 워크북 p.3-4",
+          "note": "p.6-10"
+        },
+        {
+          "sessionNumber": 3,
+          "planTitle": "Unit 2 — Cc",
+          "planDetail": "1) 알파벳 Cc 소개\n2) 책 따라 읽기\n3) 복습 게임",
+          "note": "p.11-15"
+        },
+        {
+          "sessionNumber": 4,
+          "planTitle": "Unit 2 — Dd",
+          "planDetail": "1) 알파벳 Dd 소개\n2) 쓰기 연습\n3) 워크북",
+          "note": "p.16-20"
+        },
+        {
+          "sessionNumber": 5,
+          "planTitle": "Unit 3 — Ee",
+          "planDetail": "1) 알파벳 Ee 소개\n2) 음원 듣기\n3) 과제 확인",
+          "note": "p.21-25"
+        },
+        {
+          "sessionNumber": 6,
+          "planTitle": "Unit 3 — Ff",
+          "planDetail": "1) 알파벳 Ff 소개\n2) 단어 시험 준비\n3) 본 수업",
+          "note": "p.26-30"
+        },
+        {
+          "sessionNumber": 7,
+          "planTitle": "Unit 4 — Gg",
+          "planDetail": "1) 알파벳 Gg 소개\n2) 문제 풀이\n3) 워크북",
+          "note": "p.31-35"
+        },
+        {
+          "sessionNumber": 8,
+          "planTitle": "Unit 4 — Hh",
+          "planDetail": "1) 알파벳 Hh 소개\n2) 단원 복습\n3) 소단원 평가",
+          "note": "p.36-40"
+        }
+      ],
+      "classDefaults": {
+        "defaultTotalLessons": 8,
+        "defaultBook": "데모 교재 (Red Phonics)"
+      },
+      "types": {},
+      "updatedAt": "2026-03-01T00:00:00.000Z"
+    }
+  }
+}

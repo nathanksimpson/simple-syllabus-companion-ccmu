@@ -18,7 +18,7 @@ const FILES = [
     'js/term-dates.js',
     'js/schedule-core.js',
     'js/debate-periods.js',
-    'js/syllabus-curricula-data.js',
+    // syllabus-curricula-data.js is Companion-owned (empty stub). Curricula load from packs/.
     'js/syllabus-curricula.js',
     'js/syllabus-presets.js',
     'js/syllabus-templates.js',

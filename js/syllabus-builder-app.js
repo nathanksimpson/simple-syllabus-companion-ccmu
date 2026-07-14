@@ -514,6 +514,10 @@
         if (!listEl || !editor) return;
         const searchQuery = (document.getElementById('curriculumTabListSearch')?.value || '').trim();
         editor.renderCurriculumList(listEl, curriculumTabSelectedId, { searchQuery });
+        const books = editor.discoverBooks(window.CCPCompanionStore.getData());
+        if (!books.length && !searchQuery) {
+            listEl.innerHTML = `<p class="module-empty-hint" style="padding:12px">${escapeHtml(t('curriculumCatalogEmpty'))}</p>`;
+        }
     }
 
     function initCurriculumPanel() {
@@ -2357,7 +2361,21 @@
         });
     }
 
-    function boot() {
+    async function boot() {
+        if (window.CCPPacksBoot && typeof window.CCPPacksBoot.loadFromManifest === 'function') {
+            try {
+                const packResult = await window.CCPPacksBoot.loadFromManifest();
+                if (packResult.applied.length) {
+                    setStatus(t('packsBootApplied').replace('{n}', String(packResult.applied.length)));
+                } else if (packResult.errors.length && !packResult.skipped.length) {
+                    console.warn('Packs boot errors:', packResult.errors);
+                    setStatus(t('packsBootError'), true);
+                }
+            } catch (err) {
+                console.warn('Packs boot failed:', err);
+            }
+        }
+
         applyTabOrder();
         switchTab(activeTab);
         applyI18n();
@@ -2413,7 +2431,7 @@
     }
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', boot);
+        document.addEventListener('DOMContentLoaded', () => { boot(); });
     } else {
         boot();
     }
