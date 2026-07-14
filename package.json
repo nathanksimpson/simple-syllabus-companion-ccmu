@@ -5,6 +5,7 @@
   "description": "Standalone syllabus creator — imports curriculum packs from Class Calendar Multi User",
   "scripts": {
     "sync:ccmu": "node scripts/sync-from-ccmu.mjs",
+    "export:factory-pack": "node scripts/export-factory-pack.mjs",
     "start": "npx --yes serve -l 8090",
     "test": "node --test tests/*.test.mjs",
     "build:word-export": "node scripts/build-word-export.mjs",

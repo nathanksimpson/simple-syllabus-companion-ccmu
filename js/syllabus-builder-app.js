@@ -2068,10 +2068,21 @@
                     initCurriculumPanel();
                     renderProjectEditor();
                     const bookN = counts.curriculumCount != null ? counts.curriculumCount : counts.bookCount;
+                    const titles = Object.values(
+                        (window.CCPCompanionStore.getData().curriculumOverrides) || {}
+                    )
+                        .map((row) => row && row.bookTitle)
+                        .filter(Boolean);
                     setStatus(t('packImported')
                         .replace('{templates}', String(counts.templateCount || 0))
                         .replace('{books}', String(bookN || 0)));
+                    console.info('[Syllabus Companion] Imported curricula:', bookN, titles);
                     switchTab('curriculum');
+                    if (bookN > 0 && bookN < 8) {
+                        setTimeout(() => {
+                            alert(t('packImportedSparseHint').replace('{n}', String(bookN)));
+                        }, 50);
+                    }
                 } catch {
                     alert(t('packInvalid'));
                 }

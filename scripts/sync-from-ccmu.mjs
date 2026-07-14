@@ -70,3 +70,25 @@ FILES.forEach((rel) => {
     }
 });
 console.log(`Done: ${ok} copied, ${skip} skipped.`);
+
+// Keep private factory pack in sync for pack-first Companion (gitignored).
+try {
+    const { spawnSync } = await import('child_process');
+    const exportScript = path.join(COMPANION_ROOT, 'scripts', 'export-factory-pack.mjs');
+    const result = spawnSync(process.execPath, [exportScript], {
+        cwd: COMPANION_ROOT,
+        env: process.env,
+        encoding: 'utf8'
+    });
+    if (result.stdout) {
+        process.stdout.write(result.stdout);
+    }
+    if (result.stderr) {
+        process.stderr.write(result.stderr);
+    }
+    if (result.status !== 0) {
+        console.warn('Factory pack export failed (Companion can still use Import pack).');
+    }
+} catch (err) {
+    console.warn('Factory pack export skipped:', err && err.message ? err.message : err);
+}

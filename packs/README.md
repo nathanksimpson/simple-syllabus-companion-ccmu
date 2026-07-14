@@ -34,6 +34,29 @@ You can also use **Import pack** in the app header (any valid Class Calendar les
    Public [`manifest.json`](manifest.json) is for shared demo packs only. The app loads both manifests.
 4. Hard-refresh the browser (Ctrl+F5). New or changed packs are applied automatically.
 
+## Full Class Calendar catalog (recommended)
+
+A Class Calendar “lesson plans/books pack” usually contains **only books you edited**, not the whole factory list (Write Right, Early Writers, Best Writing Starter, etc.).
+
+To load the full catalog locally (stays off GitHub):
+
+```bash
+npm run export:factory-pack
+```
+
+This writes `packs/private/ccmu-factory-base.json`. List it in `packs/manifest.local.json` **above** your school pack so school overrides win:
+
+```json
+{
+  "packs": [
+    "private/ccmu-factory-base.json",
+    "private/jamsil-le-el-2026-summer.json"
+  ]
+}
+```
+
+`npm run sync:ccmu` also refreshes that factory pack when Class Calendar updates.
+
 ## Privacy
 
-Files under `packs/private/` are ignored by git. Do not put proprietary lesson plans in `demo/` or elsewhere in the repo if the repository is public.
+Files under `packs/private/` and `packs/manifest.local.json` are gitignored. Do not put proprietary lesson plans in `demo/` or other tracked paths if the repository is public.
