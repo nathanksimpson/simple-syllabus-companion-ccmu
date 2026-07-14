@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Syllabus Companion</title>
+    <script src="vendor/ccmu/js/theme-init.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/ccmu/css/tokens.css?v=3">
+    <link rel="stylesheet" href="css/companion-theme-dark.css?v=1">
+    <link rel="stylesheet" href="vendor/ccmu/css/components.css?v=3">
+    <link rel="stylesheet" href="vendor/ccmu/css/shell.css?v=3">
+    <link rel="stylesheet" href="vendor/ccmu/css/calendar.css?v=3">
+    <link rel="stylesheet" href="css/companion-shell.css?v=6">
+    <link rel="stylesheet" href="css/companion-modals.css?v=4">
+    <link rel="stylesheet" href="css/companion.css?v=9">
+    <link rel="stylesheet" href="css/companion-calendar.css?v=3">
+    <link rel="stylesheet" href="css/companion-colors.css?v=1">
+    <link rel="stylesheet" href="css/companion-wizard.css?v=7">
+</head>
+<body>
+    <div class="companion-app app-container">
+        <header class="app-top-bar app-top-bar--global app-top-bar--companion" id="appTopBar">
+            <div class="app-top-bar-compact">
+                <div class="app-header-unified" id="appHeaderUnified">
+                    <div class="app-top-bar-row app-top-bar-row--primary">
+                        <div class="app-brand">
+                            <span class="app-brand-icon" aria-hidden="true">◳</span>
+                            <span class="app-brand-name" id="appTitle">Syllabus Companion</span>
+                        </div>
+                        <div class="app-top-bar-row__spacer" aria-hidden="true"></div>
+                        <div class="app-header-unified__tools app-top-bar-actions" role="group" aria-label="Tools">
+                            <div class="lang-toggle" role="group" aria-label="Language">
+                                <button type="button" class="btn btn-header-lang btn-small" data-lang="en">EN</button>
+                                <button type="button" class="btn btn-header-lang btn-small" data-lang="ko">KO</button>
+                            </div>
+                            <button type="button" class="btn btn-outline btn-small" id="importPackBtn">Import pack</button>
+                            <button type="button" class="btn btn-outline btn-small" id="exportPackBtn">Export pack</button>
+                            <button type="button" class="btn btn-outline btn-small" id="importBackupBtn">Import backup</button>
+                            <button type="button" class="btn btn-outline btn-small" id="exportBackupBtn">Export backup</button>
+                            <button type="button" class="btn btn-outline btn-small" id="importCalendarBtn">Import calendar events</button>
+                        </div>
+                        <div class="companion-header-pinned">
+                            <div class="companion-help-menu">
+                                <button type="button" class="btn btn-outline btn-small" id="companionHelpBtn" aria-haspopup="true" aria-expanded="false">Help</button>
+                                <div id="companionHelpMenu" class="companion-help-dropdown" hidden>
+                                    <button type="button" data-help="checklist">Term setup checklist</button>
+                                    <button type="button" data-help="calendar">Calendar setup wizard</button>
+                                    <button type="button" data-help="curriculum">Curriculum wizard</button>
+                                    <button type="button" data-help="syllabus">Syllabus wizard</button>
+                                    <button type="button" data-help="tour">Quick tour</button>
+                                    <button type="button" data-help="guide">User guide (PDF)</button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-header-theme btn-small" id="headerThemeToggleBtn" data-theme-icon-only="1" aria-pressed="false" title="Switch light/dark theme" aria-label="Theme">◐</button>
+                            <span class="team-sync-saved-indicator" id="statusMessage" role="status">
+                                <span class="team-sync-saved-indicator__dot" aria-hidden="true"></span>
+                                <span id="statusMessageText"></span>
+                            </span>
+                        </div>
+                        <p class="companion-subtitle" id="appSubtitle">Create syllabi from curriculum books</p>
+                    </div>
+                    <div class="app-top-bar-row app-top-bar-row--nav">
+                        <nav class="app-zone-segment-nav" role="tablist" aria-label="Sections">
+                            <div class="app-zone-segment-panel is-active" id="companionSegmentPanel">
+                                <button type="button" class="app-zone-segment-btn is-active" data-tab="calendar" role="tab" aria-selected="true" id="tabBtn-calendar">Calendar</button>
+                                <button type="button" class="app-zone-segment-btn" data-tab="curriculum" role="tab" aria-selected="false" id="tabBtn-curriculum">Curriculum</button>
+                                <button type="button" class="app-zone-segment-btn" data-tab="syllabus" role="tab" aria-selected="false" id="tabBtn-syllabus">Syllabi</button>
+                                <button type="button" class="app-zone-segment-btn" data-tab="print" role="tab" aria-selected="false" id="tabBtn-print">Print</button>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <input type="file" id="importPackFile" accept=".json,application/json" hidden>
+        <input type="file" id="importCalendarFile" accept=".json,application/json" hidden>
+        <input type="file" id="importBackupFile" accept=".json,application/json" hidden>
+
+        <main class="companion-main">
+            <div id="termSetupChecklist" hidden></div>
+            <section id="panel-curriculum" class="companion-panel" data-panel="curriculum" role="tabpanel" hidden>
+                <p class="section-hint" id="curriculumTabIntro">Edit session pages for each book.</p>
+                <div class="curriculum-tab-layout workspace-books-layout">
+                    <aside class="curriculum-tab-sidebar">
+                        <div class="curriculum-tab-sidebar-toolbar">
+                            <button type="button" id="curriculumAddBtn" class="btn btn-primary btn-small">Add curriculum</button>
+                        </div>
+                        <input type="search" id="curriculumTabListSearch" class="module-list-search" placeholder="Search curricula…" autocomplete="off">
+                        <div id="curriculumTabList" class="workspace-books-list" role="listbox"></div>
+                    </aside>
+                    <div id="curriculumTabEditorMount" class="curriculum-tab-editor-mount">
+                        <p class="module-empty-hint" id="curriculumTabPick">Select a curriculum to edit.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="panel-syllabus" class="companion-panel" data-panel="syllabus" role="tabpanel" hidden>
+                <div class="syllabus-layout">
+                    <div class="project-list">
+                        <button type="button" class="btn btn-primary btn-small" id="newProjectBtn">New syllabus</button>
+                        <div id="projectListMount"></div>
+                    </div>
+                    <div class="project-editor" id="projectEditorMount">
+                        <p class="module-empty-hint" id="selectProjectHint">Select or create a syllabus.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="panel-calendar" class="companion-panel" data-panel="calendar" role="tabpanel">
+                <div class="cal-range-bar calendar-toolbar-section">
+                    <div class="form-group toolbar-field">
+                        <label for="calDisplayStart" id="calDisplayStartLabel">Show from</label>
+                        <input type="date" id="calDisplayStart">
+                    </div>
+                    <div class="form-group toolbar-field">
+                        <label for="calDisplayEnd" id="calDisplayEndLabel">Show to</label>
+                        <input type="date" id="calDisplayEnd">
+                    </div>
+                    <button type="button" class="btn btn-outline btn-small" id="calFitRangeBtn">Fit to all syllabi</button>
+                    <div class="form-group toolbar-field">
+                        <label for="calEventFilter" id="calEventFilterLabel">Show events for</label>
+                        <select id="calEventFilter">
+                            <option value="all">All syllabi</option>
+                            <option value="active">Active syllabus only</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-outline btn-small" id="calImportKrBtn">Import Korean public holidays</button>
+                    <button type="button" class="btn btn-outline btn-small" id="calSetupGuideBtn">Calendar setup</button>
+                    <button type="button" class="btn btn-primary btn-small" id="calAddEventBtn">Add event</button>
+                </div>
+                <p class="section-hint cal-source-hint" id="calKrSourceHint">Source: holidays.hyunbin.page - free public calendar.</p>
+                <p class="section-hint" id="calLessonBarsHint">Bars show the active syllabus’s scheduled class days.</p>
+                <div class="companion-calendar-layout">
+                    <div id="calMonthsMount" class="calendar-container"></div>
+                    <aside class="cal-sidebar">
+                        <h3 class="cal-sidebar-title" id="calEventsHeading">Events</h3>
+                        <div id="calEventList" class="cal-event-list"></div>
+                    </aside>
+                </div>
+            </section>
+
+            <section id="panel-print" class="companion-panel" data-panel="print" role="tabpanel" hidden>
+                <p class="section-hint" id="printTabHint">Preview and print the active syllabus project (A4 진도표).</p>
+                <section class="print-options-bar" aria-labelledby="printOptionsTitle">
+                    <h3 id="printOptionsTitle" class="print-options-title">Print options</h3>
+                    <div class="print-options-grid">
+                        <label class="print-option-check">
+                            <input type="checkbox" id="printShowDateColumn" checked>
+                            <span id="printShowDateLabel">Show Date column</span>
+                        </label>
+                        <div class="form-group print-option-week">
+                            <label for="printWeekFormat" id="printWeekFormatLabel">Week column</label>
+                            <select id="printWeekFormat" class="form-control">
+                                <option value="abbrev" id="printWeekFormatAbbrevOpt">Date range (Jul 6–10)</option>
+                                <option value="index" id="printWeekFormatIndexOpt">Week number only (W1, W2)</option>
+                            </select>
+                        </div>
+                        <label class="print-option-check">
+                            <input type="checkbox" id="printDetailAppendix">
+                            <span id="printDetailAppendixLabel">Include homework detail pages (appendix)</span>
+                        </label>
+                    </div>
+                </section>
+                <section class="print-selection-bar" aria-labelledby="printSelectionTitle">
+                    <div class="print-selection-header">
+                        <h3 id="printSelectionTitle" class="print-options-title">Choose syllabi</h3>
+                        <div class="print-selection-actions">
+                            <button type="button" class="btn btn-outline btn-small" id="printSelectAllBtn">Select all</button>
+                            <button type="button" class="btn btn-outline btn-small" id="printSelectNoneBtn">Clear</button>
+                        </div>
+                    </div>
+                    <p class="section-hint" id="printSelectionHint">Check the syllabi to include. Preview and print use your selection.</p>
+                    <div id="printProjectListMount" class="print-project-list" role="group" aria-labelledby="printSelectionTitle"></div>
+                </section>
+                <div class="syllabus-actions print-actions-row">
+                    <button type="button" class="btn btn-header-print" id="printSyllabusBtn">Print selected</button>
+                    <button type="button" class="btn btn-outline btn-small" id="exportWordBtn">Download Word (.docx)</button>
+                    <span class="print-selection-count" id="printSelectionCount" aria-live="polite"></span>
+                </div>
+                <div class="print-preview-wrap">
+                    <iframe id="printPreviewFrame" class="print-preview-frame" title="Print preview"></iframe>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Vendor (sync from Class Calendar) -->
+    <script src="vendor/ccmu/js/utils.js"></script>
+    <script src="vendor/ccmu/js/class-color-palette.js"></script>
+    <script src="vendor/ccmu/js/term-dates.js"></script>
+    <script src="vendor/ccmu/js/schedule-core.js"></script>
+    <script src="vendor/ccmu/js/debate-periods.js"></script>
+    <script src="vendor/ccmu/js/syllabus-curricula-data.js"></script>
+    <script src="vendor/ccmu/js/syllabus-curricula.js"></script>
+    <script src="vendor/ccmu/js/syllabus-presets.js"></script>
+    <script src="vendor/ccmu/js/syllabus-templates.js"></script>
+    <script src="vendor/ccmu/js/syllabus-table.js"></script>
+    <script src="vendor/ccmu/js/books-editor.js?v=2"></script>
+    <script src="vendor/ccmu/js/default-class-editor.js"></script>
+    <script src="vendor/ccmu/js/homework-import.js"></script>
+    <script src="vendor/ccmu/js/theme-toggle.js"></script>
+    <!-- Companion -->
+    <script src="js/i18n/companion-en.js?v=15"></script>
+    <script src="js/class-metadata.js?v=3"></script>
+    <script src="js/syllabus-pack.js?v=3"></script>
+    <script src="js/calendar-events.js?v=3"></script>
+    <script src="js/syllabus-builder-store.js?v=8"></script>
+    <script src="js/schedule-lesson-dates.js?v=9"></script>
+    <script src="js/syllabus-print.js?v=5"></script>
+    <script src="js/syllabus-engine.js?v=9"></script>
+    <script src="js/calendar-month-view.js?v=6"></script>
+    <script src="js/companion-events-ui.js?v=6"></script>
+    <script src="js/companion-wizard.js?v=5"></script>
+    <script src="js/companion-guides.js?v=12"></script>
+    <script src="vendor/docx-bundle.js?v=1"></script>
+    <script src="js/syllabus-word-export.js?v=1"></script>
+    <script src="js/syllabus-builder-app.js?v=18"></script>
+</body>
+</html>

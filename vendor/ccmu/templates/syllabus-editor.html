@@ -1,0 +1,96 @@
+<div id="syllabusEditorForm" class="syllabus-editor-form" data-homework-import-mode="" data-lesson-label-mode="">
+                <section id="syllabusScheduleAdjustmentSection" class="syllabus-editor-block syllabus-schedule-adjustment-block" hidden>
+                    <details class="syllabus-schedule-adjustment-details form-section-advanced schedule-adjustment-details">
+                        <summary class="schedule-adjustment-summary-header">
+                            <span class="term-settings-caret schedule-adjustment-caret" aria-hidden="true">
+                                <span class="term-settings-caret-icon" aria-hidden="true"></span>
+                            </span>
+                            <span class="schedule-adjustment-summary-title" data-i18n="scheduleAdjustmentSectionTitle">Schedule adjustment</span>
+                            <span id="syllabusScheduleAdjustmentBarNotification" class="schedule-adjustment-bar-notification" hidden role="status"></span>
+                        </summary>
+                        <p class="section-hint" data-i18n="syllabusScheduleSetupHint">Set skips and lesson merges here before the term. Homework and the lesson table use these after Refresh from calendar.</p>
+                        <p id="syllabusScheduleUnsavedHint" class="section-hint syllabus-schedule-unsaved-hint" hidden data-i18n="syllabusScheduleUnsavedHint">Save the class in Classes first for meeting days and term dates, or use Class schedule &amp; settings above.</p>
+                        <div id="syllabusScheduleGapWarning" class="schedule-gap-warning" hidden role="alert"></div>
+                        <div id="syllabusScheduleAdjustmentSummary" class="schedule-adjustment-summary" hidden></div>
+                        <div class="form-group compression-mode-group">
+                            <div class="radio-group">
+                                <label class="checkbox-label">
+                                    <input type="radio" name="syllabusCompressionMode" id="syllabusCompressionModeAuto" value="autoWhenNeeded" checked>
+                                    <span data-i18n="compressionModeAuto">Auto compress when a month does not have enough class days</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="radio" name="syllabusCompressionMode" id="syllabusCompressionModeManual" value="manual">
+                                    <span data-i18n="compressionModeManual">Manual only (use my merge choices below)</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="radio" name="syllabusCompressionMode" id="syllabusCompressionModeManualPerMonth" value="manualPerMonth">
+                                    <span data-i18n="compressionModeManualPerMonth">Per book period (choose merges for each period)</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="syllabusCompressionByMonthSection" class="compression-by-month-section" style="display: none;">
+                            <p class="section-hint" data-i18n="syllabusCompressionByPeriodReadonlyHint">Per-period merges use book periods saved on the class. Edit book periods under Class schedule &amp; settings.</p>
+                            <p class="section-hint" data-i18n="compressionByMonthHint">Choose which lesson pairs to merge for each book period (typical for weekly debate). Each period can differ when holidays shorten the schedule.</p>
+                            <div id="syllabusCompressionByMonthRows" class="compression-by-month-rows"></div>
+                        </div>
+                        <div class="compression-options" id="syllabusCompressionGlobalSection">
+                            <p id="syllabusScheduleAdjustmentDebateHint" class="section-hint schedule-adjustment-hint" data-i18n="scheduleAdjustmentHint">Skip lessons or combine adjacent pairs for this class this term only (does not change the curriculum plan). Debate classes can also use auto-compress per book period above.</p>
+                            <p id="syllabusScheduleAdjustmentSequentialHint" class="section-hint schedule-adjustment-hint" hidden data-i18n="scheduleAdjustmentNonDebateHint">Skip or combine lessons below to fit this term's class days. Auto-compress is only for debate classes.</p>
+                            <div class="schedule-skip-range-row">
+                                <span class="schedule-skip-range-label" data-i18n="scheduleSkipRangeLabel">Skip lesson range</span>
+                                <input type="number" id="syllabusScheduleSkipRangeFrom" class="schedule-skip-range-input" min="1" step="1" aria-label="From lesson">
+                                <span data-i18n="scheduleSkipRangeTo">to</span>
+                                <input type="number" id="syllabusScheduleSkipRangeTo" class="schedule-skip-range-input" min="1" step="1" aria-label="To lesson">
+                                <button type="button" id="syllabusScheduleSkipRangeAddBtn" class="btn btn-outline btn-small" data-i18n="scheduleSkipRangeAdd">Add range</button>
+                            </div>
+                            <p class="section-hint" data-i18n="compressionMergeCheckboxesNote">Merge checkboxes apply in Manual mode only. Per month uses the section above. In Auto mode, pairs merge only when a month has fewer class meetings than lesson days.</p>
+                            <div id="syllabusScheduleAdjustmentRows" class="schedule-adjustment-rows"></div>
+                            <div id="syllabusCompressionCheckboxes" class="compression-checkboxes" style="display: none;"></div>
+                            <p class="section-hint" data-i18n="compressionOverlapHint">Only adjacent lessons can be merged. Overlapping merges are disabled.</p>
+                        </div>
+                    </details>
+                </section>
+
+                <section class="syllabus-editor-block syllabus-general-notes-block">
+                    <h3 class="syllabus-block-title" data-i18n="syllabusGeneralNotes">General notes &amp; instructions</h3>
+                    <p class="section-hint" data-i18n="syllabusGeneralNotesHint">For parents, substitutes, or your own reminders. Overrides curriculum general notes when set. Printed in the Note column on the 진도표 overview.</p>
+                    <textarea id="syllabusGeneralNotes" class="syllabus-general-notes-input" rows="5" spellcheck="true" data-i18n-placeholder="syllabusGeneralNotesPlaceholder" placeholder="e.g., Bring workbook every class. Quiz on Unit 3 at session 8…"></textarea>
+                </section>
+
+                <section class="syllabus-editor-block syllabus-table-section">
+                    <h3 class="syllabus-block-title" data-i18n="syllabusTable">Lesson schedule table</h3>
+                    <p class="section-hint" data-i18n="syllabusTableHint">Build a printable table (Month, Week, Class #, lesson plan, pages/work). Refresh after you change the calendar schedule.</p>
+                    <div class="syllabus-table-actions">
+                        <button type="button" id="refreshSyllabusBtn" class="btn btn-outline btn-small" data-i18n="refreshSyllabusFromCalendar">Refresh from calendar</button>
+                        <button type="button" id="refreshSyllabusFromCurriculumBtn" class="btn btn-outline btn-small" data-i18n="refreshSyllabusFromCurriculum">Refresh from curriculum</button>
+                        <button type="button" id="startBlankSyllabusBtn" class="btn btn-outline btn-small" data-i18n="syllabusStartBlank">Start blank syllabus</button>
+                        <button type="button" id="fillSyllabusFromUnitsBtn" class="btn btn-outline btn-small" data-i18n="fillSyllabusFromUnits">Fill pages from units</button>
+                        <button type="button" id="applyPresetSyllabusBtn" class="btn btn-outline btn-small" data-i18n="applyPresetSyllabus">Apply preset pages</button>
+                        <button type="button" id="addSyllabusLessonRowBtn" class="btn btn-outline btn-small" data-i18n="addSyllabusLessonRow">Add lesson row</button>
+                        <button type="button" id="addSyllabusNoteRowBtn" class="btn btn-outline btn-small" data-i18n="addSyllabusNoteRow">Add note row</button>
+                    </div>
+                    <div class="syllabus-table-editor-wrap">
+                        <table class="syllabus-editor-table" aria-label="Syllabus editor">
+                            <thead>
+                                <tr>
+                                    <th class="syllabus-col-week" data-i18n="syllabusColWeek">Week</th>
+                                    <th class="syllabus-col-num" data-i18n="syllabusColClass">Class</th>
+                                    <th class="syllabus-col-plan" data-i18n="syllabusColPlan">Weekly Lesson Plan</th>
+                                    <th class="syllabus-col-pages" data-i18n="syllabusColPages">Pages / detail</th>
+                                    <th class="syllabus-col-note" data-i18n="syllabusColNote">Notes</th>
+                                    <th class="syllabus-col-actions"><span class="sr-only">Remove</span></th>
+                                </tr>
+                            </thead>
+                            <tbody id="syllabusTableBody"></tbody>
+                        </table>
+                        <p id="syllabusTableEmptyHint" class="section-hint" data-i18n="syllabusTableEmptyHint">No rows yet. Click Refresh from calendar to generate rows from your lesson schedule.</p>
+                    </div>
+                </section>
+
+                <section class="syllabus-editor-block syllabus-units-block">
+                    <h3 class="syllabus-block-title" data-i18n="syllabusUnits">Curriculum units</h3>
+                    <p class="section-hint" data-i18n="syllabusUnitsHint">Optional units for planning. Link events to a unit when editing an event.</p>
+                    <div id="syllabusUnitsRows" class="syllabus-units-rows"></div>
+                    <button type="button" id="addSyllabusUnitBtn" class="btn btn-outline btn-small" data-i18n="addSyllabusUnit">Add unit</button>
+                </section>
+        </div>

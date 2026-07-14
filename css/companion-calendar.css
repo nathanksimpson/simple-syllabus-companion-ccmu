@@ -1,0 +1,170 @@
+/* Calendar tab — ClassManager calendar patterns */
+
+.companion-calendar-layout {
+    display: grid;
+    grid-template-columns: minmax(760px, 1fr) minmax(240px, 300px);
+    gap: var(--space-4);
+    align-items: start;
+    min-width: 0;
+    overflow-x: auto;
+}
+
+.cal-range-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: flex-end;
+    margin-bottom: var(--space-4);
+    padding: 14px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--toolbar-section-border, var(--border-color));
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-sm);
+}
+
+.cal-range-bar .form-group {
+    margin: 0;
+    min-width: 160px;
+}
+
+.cal-range-bar .form-group label {
+    font-size: var(--text-body-sm);
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.cal-source-hint {
+    margin: calc(var(--space-4) * -0.5) 0 var(--space-4);
+}
+
+#calMonthsMount.calendar-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--calendar-month-gap, 20px);
+    width: 100%;
+    min-width: 760px;
+}
+
+#calMonthsMount .month-calendar {
+    width: 100%;
+    scroll-margin-top: calc(var(--app-chrome-sticky-top, 72px) + 1rem);
+}
+
+#calMonthsMount .calendar-day {
+    cursor: pointer;
+    min-height: 120px;
+}
+
+#calMonthsMount .calendar-day.companion-lesson-day .day-number::after {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-left: 4px;
+    border-radius: var(--radius-full);
+    background: var(--primary);
+    vertical-align: middle;
+}
+
+#calMonthsMount .calendar-event-chip {
+    display: block;
+    padding: 2px 6px;
+    margin: 2px 4px;
+    border-radius: 5px;
+    font-size: var(--text-body-xs);
+    font-weight: 600;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+#calMonthsMount .event-bar-more {
+    font-size: var(--text-body-xs);
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 2px 6px;
+}
+
+#calMonthsMount .event-bar.event-bar--calm {
+    margin: 2px 4px;
+    border-left: 3px solid var(--primary);
+    border-radius: 5px;
+    padding: 4px 8px;
+    font-size: var(--text-body-sm);
+    font-weight: 600;
+    line-height: 1.2;
+    background: color-mix(in srgb, var(--primary) 14%, transparent);
+    color: var(--chip-calm-text);
+}
+
+.cal-sidebar {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-3);
+    position: sticky;
+    top: calc(var(--app-chrome-sticky-top, 72px) + var(--space-3));
+    max-height: calc(100dvh - var(--app-chrome-sticky-top, 72px) - var(--space-5));
+    overflow: auto;
+    min-width: 240px;
+}
+
+.cal-sidebar-title {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-body-md);
+    font-weight: 700;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.cal-event-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+}
+
+.cal-event-list-item {
+    display: flex;
+    gap: var(--space-2);
+    align-items: flex-start;
+    width: 100%;
+    text-align: left;
+    padding: var(--space-2);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+    font-family: var(--font-main);
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.cal-event-list-item:hover {
+    background: var(--bg-hover);
+    border-color: color-mix(in srgb, var(--primary) 35%, var(--border-color));
+}
+
+.cal-event-list-swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-sm);
+    margin-top: 4px;
+    flex-shrink: 0;
+}
+
+.cal-event-list-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.cal-event-list-main strong {
+    font-size: var(--text-body-md);
+    color: var(--text-primary);
+}

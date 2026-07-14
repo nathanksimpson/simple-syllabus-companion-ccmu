@@ -1,0 +1,267 @@
+/* CSS Variables & Reset */
+
+[hidden] {
+    display: none !important;
+}
+
+:root {
+    color-scheme: light;
+    --primary: #14b98f;
+    --primary-dark: #0e9b76;
+    --secondary: #5a6a80;
+    --danger: #dc2626;
+    --success: #16a34a;
+    
+    --bg-main: #f4f6f9;
+    --bg-card: #ffffff;
+    --bg-hover: #eef1f5;
+    --surface-elevated: #f0f3f7;
+    --surface-muted: #eef1f5;
+    --surface: #ffffff;
+    --bg-secondary: #eef1f5;
+    --input-bg: #ffffff;
+
+    --link-color: #0f9b75;
+    --accent: #14b98f;
+    --accent-muted: #eaf6f1;
+    
+    --text-primary: #1c2430;
+    --text-secondary: #5a6a80;
+    --text-muted: #8893a3;
+    --control-disabled-fg: #64748b;
+    --text-on-primary: #f8fafc;
+    --text-on-danger: #f8fafc;
+    
+    --border-color: #e3e8ef;
+    --border-radius: 8px;
+
+    /* Layout tokens (Simple Design System + 8px grid) */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    --space-7: 48px;
+
+    /* Semantic padding aliases (8px grid) */
+    --pad-control-y: var(--space-2);
+    --pad-control-x: var(--space-3);
+    --pad-control-y-lg: var(--space-3);
+    --pad-control-x-lg: var(--space-4);
+    --pad-surface: var(--space-4);
+    --pad-overlay: var(--space-5);
+    --pad-popover: var(--space-2);
+    --pad-popover-body: var(--space-3);
+
+    --z-base: 0;
+    --z-above-base: 1;
+    --z-sticky-cell: 2;
+    --z-sticky-header: 3;
+    --z-local-overlay: 10;
+    --z-dropdown: 100;
+    --z-sticky-chrome: 200;
+    --z-dock: 500;
+    --z-popover: 650;
+    --z-banner: 800;
+    --z-modal: 1100;
+    --z-modal-popover: 1200;
+    --z-toast: 1300;
+    --z-view-as: 1400;
+    --z-critical: 1500;
+    /* Legacy aliases */
+    --z-context-menu: var(--z-dock);
+    --z-tab-warnings: var(--z-banner);
+    --z-header-popover: var(--z-modal-popover);
+
+    --text-h1: 3rem;
+    --text-h2: 2.5rem;
+    --text-h3: 2rem;
+    --text-h4: 1.5rem;
+    --text-h5: 1.25rem;
+    --text-h6: 1.125rem;
+    --text-body-xl: 1.125rem;
+    --text-body-lg: 1rem;
+    --text-body-md: 0.875rem;
+    --text-body-sm: 0.75rem;
+    --text-body-xs: 0.625rem;
+
+    --leading-heading-tight: 1.1;
+    --leading-heading: 1.2;
+    --leading-body: 1.4;
+
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+    --radius-card: 10px;
+    --radius-full: 9999px;
+
+    --touch-min: 44px;
+
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+
+    --chip-bg: #e2e8f0;
+    --chip-color: #1e293b;
+
+    --bp-sm: 640px;
+    --bp-md: 768px;
+    --bp-lg: 900px;
+    --bp-xl: 1100px;
+    --bp-tablet: 1024px;
+
+    --split-sidebar-min: 220px;
+    --split-sidebar-max: 300px;
+    --class-notes-sidebar-min: 280px;
+    --class-notes-sidebar-max: 380px;
+    --editor-prose-max: 48rem;
+
+    --shadow-sm: 0 1px 4px rgba(12, 12, 13, 0.1), 0 1px 4px rgba(12, 12, 13, 0.05);
+    --shadow-md: 0 4px 4px -1px rgba(12, 12, 13, 0.1), 0 4px 4px -1px rgba(12, 12, 13, 0.05);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-dialog: 0 16px 32px -4px rgba(12, 12, 13, 0.1), 0 4px 4px -4px rgba(12, 12, 13, 0.05);
+    
+    --holiday-bg: #fef3c7;
+    --holiday-border: #f59e0b;
+
+    --top-bar-bg: rgba(255, 255, 255, 0.94);
+    --top-bar-shadow: 0 4px 16px rgba(20, 30, 50, 0.08);
+    --toolbar-section-border: #d4dbe4;
+    --toolbar-field-bg: #ffffff;
+    --toolbar-field-border: #d4dbe4;
+
+    /* ClassManager redesign — skeuo chrome + calm chips */
+    --brand-accent: #14b98f;
+    --brand-accent-dark: #06241c;
+    --shell-zone-track-bg: #eef1f5;
+    --shell-zone-active-top: #14b98f;
+    --shell-segment-active-bg: linear-gradient(180deg, #22d6a8, #12a37f);
+    --shell-segment-inactive-bg: linear-gradient(180deg, #ffffff, #eef2f6);
+    --lock-badge-bg: linear-gradient(180deg, #1ed3a4, #0e9b76);
+    --lock-badge-text: #128a68;
+    --chip-calm-fill-alpha: 0.14;
+    --chip-calm-text: #243244;
+    --chip-calm-subtext: #6b7689;
+    --calendar-card-border: #e3e8ef;
+    --calendar-grid-line: #eef1f5;
+
+    --notify-duration-in: 0.42s;
+    --notify-duration-out: 0.32s;
+    --notify-ease-in: cubic-bezier(0.16, 1, 0.3, 1);
+    --notify-ease-out: cubic-bezier(0.4, 0, 1, 1);
+
+    --btn-print-bg: #eff6ff;
+    --btn-print-border: #93c5fd;
+    --btn-print-color: #1d4ed8;
+    --btn-print-hover-bg: #dbeafe;
+    --btn-lang-bg: #f5f3ff;
+    --btn-lang-border: #c4b5fd;
+    --btn-lang-color: #5b21b6;
+    --btn-lang-hover-bg: #ede9fe;
+    --btn-theme-bg: #f1f5f9;
+    --btn-theme-border: #cbd5e1;
+    --btn-theme-color: #334155;
+    --btn-theme-hover-bg: #e2e8f0;
+
+    --print-section-options-accent: #2563eb;
+    --print-section-options-tint: #eff6ff;
+    --print-section-books-accent: #16a34a;
+    --print-section-books-tint: #f0fdf4;
+    --print-section-lessons-accent: #7c3aed;
+    --print-section-lessons-tint: #f5f3ff;
+    --print-section-data-accent: #dc2626;
+    --print-section-data-tint: #fef2f2;
+
+    --tab-print-inactive-bg: #f0fdfa;
+    --tab-print-inactive-color: #0f766e;
+    --tab-print-inactive-border: #99f6e4;
+    --tab-print-hover-bg: #ccfbf1;
+    --tab-print-active-bg: #0f766e;
+
+    --status-success-bg: #ecfdf5;
+    --status-success-color: #065f46;
+    --status-success-border: #a7f3d0;
+    --status-error-bg: #fef2f2;
+    --status-error-color: #991b1b;
+    --status-error-border: #fecaca;
+
+    --badge-warn-bg: #fef3c7;
+    --badge-warn-color: #b45309;
+
+    --lock-btn-bg: #ffffff;
+    --lock-btn-border: #cbd5e1;
+    --lock-btn-hover-bg: #f1f5f9;
+    --lock-status-free-bg: #f8fafc;
+    --lock-status-free-border: #e2e8f0;
+    --lock-status-held-bg: #ecfdf5;
+    --lock-status-held-border: #a7f3d0;
+    --lock-status-blocked-bg: #fef2f2;
+    --lock-status-blocked-border: #fecaca;
+    --lock-status-pending-bg: #fffbeb;
+    --lock-status-pending-border: #fcd34d;
+    --lock-status-waiting-bg: #eff6ff;
+    --lock-status-waiting-border: #93c5fd;
+    --banner-warn-bg: #fef3c7;
+    --banner-warn-border: #f59e0b;
+    --banner-warn-color: #78350f;
+    --warn-badge-bg: #d97706;
+    --warn-badge-fg: var(--text-on-primary);
+    --banner-error-bg: #fee2e2;
+    --banner-error-border: #f87171;
+    --banner-error-color: #7f1d1d;
+    --banner-info-bg: #eff6ff;
+    --banner-info-border: #93c5fd;
+    --banner-info-color: #1e40af;
+
+    --banner-view-as-bg: #b45309;
+    --banner-view-as-fg: #fffbeb;
+    --banner-view-as-border: #92400e;
+    --banner-view-as-exit-bg: #fffbeb;
+    --banner-view-as-exit-fg: #92400e;
+    --banner-view-as-exit-border: #fde68a;
+    --banner-view-as-exit-hover-bg: #fef3c7;
+
+    --font-main: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', monospace;
+
+    /* Sticky offsets: set from JS to match #appTopBar height */
+    --app-chrome-sticky-top: 72px;
+    /* Cohorts setup board: palette sticky top + viewport lock (set from JS) */
+    --cohorts-palette-sticky-top: calc(var(--app-chrome-sticky-top) + 4.5rem);
+    --cohorts-board-chrome-height: 12rem;
+    /* Calendar month headers: app bar + floating visibility dock (set from JS) */
+    --calendar-month-sticky-top: var(--app-chrome-sticky-top);
+    /* One month ≈ one viewport below sticky chrome on the calendar tab */
+    --calendar-month-gap: 20px;
+    --calendar-month-view-height: calc(100dvh - var(--calendar-month-sticky-top) - var(--calendar-month-gap));
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scrollbar-gutter: stable;
+}
+
+body {
+    font-family: var(--font-main), 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    font-size: var(--text-body-lg);
+    background: var(--bg-main);
+    color: var(--text-primary);
+    line-height: var(--leading-body);
+    min-height: 100vh;
+    overscroll-behavior: none;
+}
+
+.scroll-region {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+

@@ -1,0 +1,275 @@
+/* Syllabus Companion — dark theme tokens + component overrides (ported from Class Calendar features.css) */
+
+[data-theme="dark"] {
+    color-scheme: dark;
+
+    --primary: #1ed3a4;
+    --primary-dark: #14b98f;
+    --secondary: #7c8aa0;
+
+    --bg-main: #0e1726;
+    --bg-card: #111c2c;
+    --bg-hover: #16202f;
+    --surface-elevated: #16202f;
+    --surface-muted: #141d2a;
+    --surface: #111c2c;
+    --bg-secondary: #141d2a;
+    --input-bg: #0e1726;
+
+    --link-color: #7fe8c8;
+    --accent: #14b98f;
+    --accent-muted: rgba(20, 185, 143, 0.12);
+
+    --text-primary: #e8edf4;
+    --text-secondary: #aebbcd;
+    --text-muted: #7c8aa0;
+    --control-disabled-fg: #94a3b8;
+    --text-on-primary: #f8fafc;
+    --text-on-danger: #f8fafc;
+
+    --border-color: #232f44;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.45);
+
+    --holiday-bg: #422006;
+    --holiday-border: #e0b65c;
+
+    --top-bar-bg: rgba(17, 28, 44, 0.96);
+    --top-bar-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+    --toolbar-section-border: #2c3a52;
+    --toolbar-field-bg: #0e1726;
+    --toolbar-field-border: #2c3a52;
+
+    --shell-zone-track-bg: #0e1726;
+    --shell-segment-active-bg: linear-gradient(180deg, #1ed3a4, #0e9b76);
+    --shell-segment-inactive-bg: linear-gradient(180deg, #1e2b3e, #16202f);
+    --lock-badge-text: #6ee0c2;
+    --chip-calm-fill-alpha: 0.16;
+    --chip-calm-text: #dde6f1;
+    --chip-calm-subtext: rgba(221, 230, 241, 0.55);
+    --calendar-card-border: #232f44;
+    --calendar-grid-line: #1c2638;
+
+    --btn-print-bg: #1e3a5f;
+    --btn-print-border: #3b82f6;
+    --btn-print-color: #bfdbfe;
+    --btn-print-hover-bg: #1e40af;
+    --btn-lang-bg: #3b0764;
+    --btn-lang-border: #7c3aed;
+    --btn-lang-color: #e9d5ff;
+    --btn-lang-hover-bg: #4c1d95;
+    --btn-theme-bg: #334155;
+    --btn-theme-border: #475569;
+    --btn-theme-color: #e2e8f0;
+    --btn-theme-hover-bg: #475569;
+
+    --print-section-options-accent: #60a5fa;
+    --print-section-options-tint: #172554;
+    --print-section-books-accent: #4ade80;
+    --print-section-books-tint: #14532d;
+    --print-section-lessons-accent: #a78bfa;
+    --print-section-lessons-tint: #3b0764;
+    --print-section-data-accent: #f87171;
+    --print-section-data-tint: #450a0a;
+
+    --tab-print-inactive-bg: #134e4a;
+    --tab-print-inactive-color: #5eead4;
+    --tab-print-inactive-border: #0f766e;
+    --tab-print-hover-bg: #115e59;
+    --tab-print-active-bg: #14b8a6;
+
+    --status-success-bg: #052e16;
+    --status-success-color: #86efac;
+    --status-success-border: #166534;
+    --status-error-bg: #450a0a;
+    --status-error-color: #fca5a5;
+    --status-error-border: #991b1b;
+
+    --badge-warn-bg: #422006;
+    --badge-warn-color: #fcd34d;
+
+    --chip-bg: #334155;
+    --chip-color: #f1f5f9;
+}
+
+[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+    background: var(--input-bg);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] .calendar-container {
+    background: transparent;
+}
+
+[data-theme="dark"] .calendar-day:not(.holiday) {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .calendar-day.holiday {
+    color: inherit;
+}
+
+[data-theme="dark"] .modal-content,
+[data-theme="dark"] .lesson-filter-popover-panel {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .calendar-day-header {
+    background: var(--surface-elevated);
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .calendar-day.other-month:not(.holiday) {
+    background: var(--bg-main);
+}
+
+[data-theme="dark"] .calendar-day.other-month:not(.holiday) .day-number {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .calendar-day.today:not(.holiday) {
+    box-shadow: inset 0 0 0 2px var(--primary);
+}
+
+[data-theme="dark"] .calendar-day.today.holiday {
+    box-shadow: inset 0 0 0 2px rgba(248, 250, 252, 0.85);
+}
+
+[data-theme="dark"] .calendar-day.has-eval-period:not(.holiday) {
+    box-shadow: inset 0 0 0 2px rgba(167, 139, 250, 0.65);
+}
+
+[data-theme="dark"] .modal {
+    background: rgba(2, 6, 23, 0.72);
+}
+
+[data-theme="dark"] .print-syllabus-template-item,
+[data-theme="dark"] .print-books-item {
+    background: var(--surface-elevated);
+}
+
+[data-theme="dark"] .syllabus-editor-block,
+[data-theme="dark"] .module-list-panel,
+[data-theme="dark"] .module-editor-panel {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .calendar-options {
+    background: var(--surface-muted);
+    border-color: var(--toolbar-section-border);
+}
+
+[data-theme="dark"] .calendar-visibility-dock {
+    background: var(--top-bar-bg);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .calendar-toolbar-section {
+    background: var(--bg-card);
+    border-color: var(--toolbar-section-border);
+}
+
+[data-theme="dark"] .toolbar-field {
+    background: var(--toolbar-field-bg);
+    border-color: var(--toolbar-field-border);
+}
+
+[data-theme="dark"] .visibility-chip {
+    background: var(--toolbar-field-bg);
+    border-color: var(--toolbar-field-border);
+}
+
+[data-theme="dark"] .visibility-chip:hover {
+    background: var(--bg-hover);
+    border-color: var(--text-muted);
+}
+
+[data-theme="dark"] .visibility-chip:has(input:checked) {
+    background: var(--accent-muted);
+    border-color: var(--accent);
+}
+
+[data-theme="dark"] .selection-chip {
+    background: var(--toolbar-field-bg);
+    border-color: var(--toolbar-field-border);
+}
+
+[data-theme="dark"] .selection-chip:hover {
+    background: var(--bg-hover);
+    border-color: var(--text-muted);
+}
+
+[data-theme="dark"] .selection-chip:has(input:checked) {
+    background: var(--accent-muted);
+    border-color: var(--accent);
+}
+
+[data-theme="dark"] .books-editor-table th {
+    background: var(--surface-elevated);
+}
+
+[data-theme="dark"] .syllabus-table th,
+[data-theme="dark"] .syllabus-table td {
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .syllabus-editor-table .syllabus-row-event.syllabus-row-evaluation_period td,
+[data-theme="dark"] .syllabus-editor-table .syllabus-row-event td {
+    background: #3b0764;
+}
+
+[data-theme="dark"] .syllabus-editor-table .syllabus-row-event.syllabus-row-evaluation_deadline td {
+    background: #450a0a;
+}
+
+[data-theme="dark"] .homework-import-panel {
+    background: var(--surface-elevated);
+}
+
+[data-theme="dark"] .summary-table th {
+    background: var(--surface-elevated);
+}
+
+[data-theme="dark"] .app-zone-segment-btn {
+    color: #9aa8bd;
+    background: linear-gradient(180deg, #1e2b3e, #16202f);
+    border-color: #2a374e;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .app-zone-segment-btn.is-active,
+[data-theme="dark"] .app-zone-segment-btn[aria-selected="true"] {
+    color: #eaf6f1;
+    background: linear-gradient(180deg, #26354b, #172234);
+    border-color: #3a4d6a;
+    box-shadow: 0 -3px 8px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Keep print preview paper-white for WYSIWYG accuracy */
+[data-theme="dark"] .print-preview-wrap {
+    background: var(--surface-muted);
+}
+
+[data-theme="dark"] .print-preview-frame,
+[data-theme="dark"] #printPreviewFrame {
+    background: #fff;
+    color: #111;
+}
+
+[data-theme="dark"] .print-summary #syllabusTablesSummary .syllabus-a4-sheet,
+[data-theme="dark"] .print-summary #syllabusTablesSummary .syllabus-a4-page {
+    background: #fff;
+    color: #111;
+}
